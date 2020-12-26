@@ -20,11 +20,8 @@ public class Gun : MonoBehaviour
     public float shootVelocity = 50f;
     public int damage = 10;
     public float fireRate = 100f;
-    private float maxFireRate;
+    
 
-    private GameObject fpsCam;
-    private SoundManager soundManager;
-    private AudioSource audioSource;
     public int ammoCapacity = 30;
 
     public int chargerAmmo;
@@ -35,17 +32,20 @@ public class Gun : MonoBehaviour
 
     [HideInInspector] public bool canShoot = false;
 
-    PlayerWeaponry playerWeaponry;
+    private PlayerWeaponry _playerWeaponry;
 
-    [SerializeField] Transform position;
+    [SerializeField] private Transform _position;
 
     public bool isAutomatic = false;
 
     public WeaponType weaponType;
 
-    float originalTimeFixedDeltaTime;
-
-    
+    private float _originalTimeFixedDeltaTime;
+    private float maxFireRate;
+    private Transform _fpsCam;
+    private SoundManager _soundManager;
+    private AudioSource _audioSource;
+    private bool _reloading = false;
 
     private void Awake()
     {
@@ -54,30 +54,33 @@ public class Gun : MonoBehaviour
         maxFireRate = fireRate;
     }
 
-    bool canReload = true;
+    private bool _canReload = true;
 
     private void Start()
     {
-        originalTimeFixedDeltaTime = Time.fixedDeltaTime;
-        fpsCam = GameObject.FindGameObjectWithTag("MainCamera");
-        //position = GameObject.FindGameObjectWithTag("ShootPoint").transform;
-        soundManager = FindObjectOfType<SoundManager>();
-        audioSource = GetComponent<AudioSource>();
+        _originalTimeFixedDeltaTime = Time.fixedDeltaTime;
+        _fpsCam = Camera.main.transform;
 
-        playerWeaponry = FindObjectOfType<PlayerWeaponry>();
+        if(!_position)
+            _position = GameObject.FindGameObjectWithTag("ShootPoint").transform;
+
+        _soundManager = FindObjectOfType<SoundManager>();
+        _audioSource = GetComponent<AudioSource>();
+
+        _playerWeaponry = FindObjectOfType<PlayerWeaponry>();
         switch (weaponType)
         {
             case WeaponType.PISTOL:
-                chargerAmmo = playerWeaponry.pistolChargerAmmo;
-                currentAmmo = playerWeaponry.pistolCurrentAmmo;
+                chargerAmmo = _playerWeaponry.pistolChargerAmmo;
+                currentAmmo = _playerWeaponry.pistolCurrentAmmo;
                 break;
             case WeaponType.SUBMACHINE_GUN:
-                chargerAmmo = playerWeaponry.submachineGunChargerAmmo;
-                currentAmmo = playerWeaponry.submachineGunCurrentAmmo;
+                chargerAmmo = _playerWeaponry.submachineGunChargerAmmo;
+                currentAmmo = _playerWeaponry.submachineGunCurrentAmmo;
                 break;
             case WeaponType.RIFLE:
-                chargerAmmo = playerWeaponry.rifleChargerAmmo;
-                currentAmmo = playerWeaponry.rifleCurrentAmmo;
+                chargerAmmo = _playerWeaponry.rifleChargerAmmo;
+                currentAmmo = _playerWeaponry.rifleCurrentAmmo;
                 break;
         }
     }
@@ -85,8 +88,6 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-
         if (!isAutomatic)
         {
             if (Input.GetMouseButtonDown(0))
@@ -109,95 +110,62 @@ public class Gun : MonoBehaviour
 
         if(chargerAmmo < ammoCapacity && currentAmmo > 0)
         {
-            canReload = true;
+            _canReload = true;
         }
         else
         {
-            canReload = false;
+            _canReload = false;
         }
 
         switch (weaponType)
         {
             case WeaponType.PISTOL:
-                playerWeaponry.pistolChargerAmmo = chargerAmmo;
-                playerWeaponry.pistolCurrentAmmo = currentAmmo;
+                _playerWeaponry.pistolChargerAmmo = chargerAmmo;
+                _playerWeaponry.pistolCurrentAmmo = currentAmmo;
                 break;
             case WeaponType.SUBMACHINE_GUN:
-                playerWeaponry.submachineGunChargerAmmo = chargerAmmo;
-                playerWeaponry.submachineGunCurrentAmmo = currentAmmo;
+                _playerWeaponry.submachineGunChargerAmmo = chargerAmmo;
+                _playerWeaponry.submachineGunCurrentAmmo = currentAmmo;
                 break;
             case WeaponType.RIFLE:
-                playerWeaponry.rifleChargerAmmo = chargerAmmo;
-                playerWeaponry.rifleCurrentAmmo = currentAmmo;
+                _playerWeaponry.rifleChargerAmmo = chargerAmmo;
+                _playerWeaponry.rifleCurrentAmmo = currentAmmo;
                 break;
         }
 
-        
-        waitedTime += Time.deltaTime;
-        
-        
+        _waitedTime += Time.deltaTime;
+
     }
 
-    
+    public void SetCanShootToTrue()
+    {
+        canShoot = true;
+    }
 
     private void FixedUpdate()
     {
         fireRate += Time.fixedDeltaTime;
     }
 
-    private bool fireRateCompleted = true;
-    float waitedTime = 0f;
-    void SetFireRate()
-    {
-        fireRateCompleted = true;
-    }
+    private float _waitedTime = 0f;
 
     void Reload()
     {
-        if (canReload && !reloading && canShoot)
+        if (_canReload && !_reloading && canShoot)
         {
             canShoot = false;
             GetComponentInParent<Animator>().SetTrigger("Reload");
-            canReload = false;
-            reloading = true;
+            _canReload = false;
+            _reloading = true;
         }
         
     }
-
-    bool reloading = false;
-    // int chargerMaxAmmo = 0;
-
-    void HandleFire()
-    {
-        if (fireRate >= maxFireRate /*fireRateCompleted */&& canShoot && chargerAmmo > 0)
-        {
-            GetComponentInParent<Animator>().SetTrigger("Shoot");
-            FindObjectOfType<RecoilController>().Fire();
-            Fire();
-            fireRate = 0;
-            
-            //fireRateCompleted = false;
-            Invoke("SetFireRate", maxFireRate);
-            chargerAmmo--;
-        }
-        else if(chargerAmmo <= 0 && fireRate > maxFireRate /*&& fireRateCompleted*/)
-        {
-            Reload();
-        }
-    }
-
-    public void SetCanShootToTrue()
-    {
-        this.canShoot = true;
-    }
-
-    
 
     public void ReloadWeapon()
     {
         SetCanShootToTrue();
 
-        if(currentAmmo >= ammoCapacity)
+        if (currentAmmo >= ammoCapacity)
         {
             currentAmmo -= (ammoCapacity - chargerAmmo);
             chargerAmmo = ammoCapacity;
@@ -207,12 +175,28 @@ public class Gun : MonoBehaviour
             int aux = chargerAmmo;
             chargerAmmo = Mathf.Clamp(chargerAmmo + currentAmmo, 1, 30);
             currentAmmo -= chargerAmmo - aux;
-            
+
         }
 
-        reloading = false;
+        _reloading = false;
     }
 
+    void HandleFire()
+    {
+        if (fireRate >= maxFireRate && canShoot && chargerAmmo > 0)
+        {
+            GetComponentInParent<Animator>().SetTrigger("Shoot");
+            FindObjectOfType<RecoilController>().Fire();
+            Fire();
+            fireRate = 0;
+            chargerAmmo--;
+        }
+        else if(chargerAmmo <= 0 && fireRate > maxFireRate)
+        {
+            Reload();
+        }
+    }
+    
     RaycastHit hit;
     Vector3 dir;
     public float push = 6f;
@@ -222,77 +206,86 @@ public class Gun : MonoBehaviour
 
     void Fire()
     {
-        soundManager.weapons.pistol.PlaySFX(audioSource, 0);
+        _soundManager.weapons.pistol.PlaySFX(_audioSource, 0);
         if(muzzleEffect && muzzleEffectLocation) 
         {
             GameObject muzzleFlash = Instantiate(muzzleEffect, muzzleEffectLocation.position, muzzleEffectLocation.rotation);
             muzzleFlash.transform.parent = muzzleEffectLocation;
         }
         
-        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, 1000f, ~layerToIgnore))
+        if (Physics.Raycast(_fpsCam.position, _fpsCam.forward, out hit, 1000f, ~layerToIgnore))
         {
+
+            #region Parte únicamente visual de la bala
             if (projectile)
             {
-                GameObject proj = Instantiate(projectile, position.position, position.rotation);
+                GameObject proj = Instantiate(projectile, _position.position, _position.rotation);
 
-                proj.transform.parent = position;
-                dir = hit.point - position.position;
+                proj.transform.parent = _position;
+                dir = hit.point - _position.position;
                 dir.Normalize();
                 proj.GetComponent<Rigidbody>().velocity = dir * shootVelocity;
             }
+            #endregion
 
-            print(hit.collider.gameObject.tag);
-
+            #region Cálculo de daño y empuje en enemigos humanos
             if (hit.collider.CompareTag("EnemyHitbox") || hit.collider.CompareTag("EnemyHeadHitbox") || hit.collider.CompareTag("EnemyForearmHitbox") || hit.collider.CompareTag("EnemyChestHitbox"))
             {
-                Vector3 deathPush;
-                deathPush = (hit.point - playerWeaponry.gameObject.transform.position).normalized;
-                float pushStrength = 0;
-                if (hit.collider.CompareTag("EnemyHeadHitbox"))
+                Vector3 _pushDirection;
+                _pushDirection = (hit.point - _playerWeaponry.transform.position).normalized;
+                float _pushStrength = 0;
+
+                switch (hit.collider.tag)
                 {
-                    pushStrength = headPush * hit.rigidbody.mass / 11.71875f;
-                    hit.collider.GetComponentInParent<Enemy>().Damage(damage * 3);
-                }
-                else if (hit.collider.CompareTag("EnemyForearmHitbox"))
-                {
-                    pushStrength = forearmPush * hit.rigidbody.mass / 11.71875f;
-                    hit.collider.GetComponentInParent<Enemy>().Damage(damage);
-                }
-                else if (hit.collider.CompareTag("EnemyChestHitbox"))
-                {
-                    pushStrength = chestPush * hit.rigidbody.mass / 11.71875f;
-                    hit.collider.GetComponentInParent<Enemy>().Damage(damage);
-                }
-                else
-                {
-                    pushStrength = push * hit.rigidbody.mass / 11.71875f;
-                    hit.collider.GetComponentInParent<Enemy>().Damage(damage);
+                    case "EnemyHeadHitbox":
+                        _pushStrength = headPush * hit.rigidbody.mass / 11.71875f;
+                        hit.collider.GetComponentInParent<Enemy>().Damage(damage * 3);
+                        break;
+                    case "EnemyForearmHitbox":
+                        _pushStrength = forearmPush * hit.rigidbody.mass / 11.71875f;
+                        hit.collider.GetComponentInParent<Enemy>().Damage(damage);
+                        break;
+                    case "EnemyChestHitbox":
+                        _pushStrength = chestPush * hit.rigidbody.mass / 11.71875f;
+                        hit.collider.GetComponentInParent<Enemy>().Damage(damage);
+                        break;
+                    default:
+                        _pushStrength = push * hit.rigidbody.mass / 11.71875f;
+                        hit.collider.GetComponentInParent<Enemy>().Damage(damage);
+                        break;
                 }
 
-
-                hit.collider.GetComponentInParent<Enemy>().Push(deathPush, pushStrength, hit.collider.name);
+                hit.collider.GetComponentInParent<Enemy>().Push(_pushDirection, _pushStrength, hit.collider.name);
                 
             }
+            #endregion
 
+            #region Detección de barril explosivo
             if (hit.collider.gameObject.GetComponentInParent<DestructibleExplosion>())
             {
                 hit.transform.gameObject.GetComponentInParent<DestructibleExplosion>().Explode();
             }
+            #endregion
+
+            SoundEmitter.SpawnSoundSphere(hit.point, 9);
+            SoundEmitter.SpawnSoundCapsule(_position.position, hit.point, 1f);
         }
         else
         {
+            #region No se detecta colisión
             if (projectile)
             {
-                GameObject proj = Instantiate(projectile, position.position, position.rotation);
-
-                proj.transform.parent = position;
-                dir = fpsCam.transform.forward * 1000f - playerWeaponry.gameObject.transform.position;
+                GameObject proj = Instantiate(projectile, _position.position, _position.rotation);
+                proj.transform.parent = _position;
+                dir = _position.forward * 1000f - _playerWeaponry.gameObject.transform.position;
                 dir.Normalize();
+                SoundEmitter.SpawnSoundCapsule(_position.position, _position.forward * 1000f, 1f);
                 proj.GetComponent<Rigidbody>().velocity = dir * shootVelocity;
             }
+            #endregion
         }
-        
 
+        SoundEmitter.SpawnSoundSphere(transform.position, 14);
     }
     
     

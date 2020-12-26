@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyAI_Human : MonoBehaviour
 {
-    [SerializeField] private bool playerDetected;   // Jugador Detectado
+    public bool playerDetected { get; private set; }   // Jugador Detectado
     [SerializeField] private LayerMask whatIsEnemy; // Lo que es ignorado al detectar al jugador
     private Transform player;                       // Referencia al transform del player
     private Quaternion currentRot;                  // Rotación del enemigo
@@ -47,7 +47,7 @@ public class EnemyAI_Human : MonoBehaviour
         }
     }
 
-    void DetectPlayer()
+    public void DetectPlayer()
     {
         if (!playerDetected)
         {
@@ -58,13 +58,15 @@ public class EnemyAI_Human : MonoBehaviour
     void UndetectPlayer()
     {
         Debug.Log("Player Not Detected");
-        playerDetected = false;
+        //playerDetected = false;
     }
 
     private void Update()
     {
         if (playerDetected)
         {
+            if (!player)
+                player = FindObjectOfType<PlayerMovementOld>().transform;
             currentRot = Quaternion.LookRotation(player.position - transform.position);
             this.transform.rotation = Quaternion.Lerp(this.transform.rotation, currentRot, 8 * Time.deltaTime);
         }
@@ -72,7 +74,7 @@ public class EnemyAI_Human : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (playerDetected)
+        if (playerDetected && player)
         {
             Gizmos.color = Color.green;
             Gizmos.DrawLine(transform.position, player.position);

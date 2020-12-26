@@ -220,23 +220,6 @@ public class PlayerMovementOld : MonoBehaviour
         {
             inclination = inclination == Inclination.LEFT ? Inclination.NONE : Inclination.LEFT;
         }
-
-        //if (Input.GetKeyDown(KeyCode.Z))
-        //{
-        //    if (!slowMotion)
-        //    {
-        //        FindObjectOfType<TimeScaleManager>().timeScale = 0.15f;
-        //        slowMotion = true;
-        //        FindObjectOfType<TimeScaleManager>().slowMotion = true;
-        //    }
-        //    else
-        //    {
-        //        FindObjectOfType<TimeScaleManager>().timeScale = 1f;
-        //        slowMotion = false;
-        //        FindObjectOfType<TimeScaleManager>().slowMotion = false;
-        //    }
-            
-        //}
     }
 
     bool slowMotion = false;
@@ -795,6 +778,10 @@ public class PlayerMovementOld : MonoBehaviour
         #endregion
 
         #region Horizontal Movement Final Calculation & Assignation
+        if(move != Vector3.zero && IsGrounded())
+        {
+            SoundEmitter.SpawnSoundSphere(transform.position, 10);
+        }
         controller.Move(move * speed * sprintVelocity * Time.deltaTime);
         #endregion
 
