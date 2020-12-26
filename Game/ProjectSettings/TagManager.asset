@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - GameManager
+  - CeilingChecker
+  - UICamera
+  - LeftChecker
+  - RightChecker
+  - WeaponHolder
+  - HookableObject
+  - GroundChecker
+  - Weapon
+  - ShootPoint
+  - CurrentAmmo
+  - MaxAmmo
+  - Enemy
+  - DeadEnemy
+  - EnemyHitbox
+  - EnemyHeadHitbox
+  - EnemyForearmHitbox
+  - EnemyChestHitbox
+  - EnemyWeapon
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Ground
+  - PostProcess
+  - Player
+  - PlayerProjectile
+  - PlayerGun
+  - SliceableGround
+  - UI Particles
+  - NotHookableGround
+  - Enemy
+  - EventTrigger
+  - DeadEnemy
+  - HookableGround
+  - Gun
+  - EnemyVisor
+  - PostProcessing
+  - ExplodedObject
+  - EnemyHitbox
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
