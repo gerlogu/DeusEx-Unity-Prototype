@@ -23,6 +23,7 @@ TagManager:
   - EnemyForearmHitbox
   - EnemyChestHitbox
   - EnemyWeapon
+  - PointB
   layers:
   - Default
   - TransparentFX
@@ -49,7 +50,7 @@ TagManager:
   - PostProcessing
   - ExplodedObject
   - EnemyHitbox
-  - 
+  - NavigationPoint
   - 
   - 
   - 

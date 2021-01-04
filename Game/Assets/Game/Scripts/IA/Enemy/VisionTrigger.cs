@@ -14,6 +14,7 @@ public class VisionTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            // print("Player");
             OnPlayerDetected(other.transform.position, other.gameObject.layer);
         }
     }

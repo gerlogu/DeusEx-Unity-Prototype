@@ -234,28 +234,26 @@ public class Gun : MonoBehaviour
                 Vector3 _pushDirection;
                 _pushDirection = (hit.point - _playerWeaponry.transform.position).normalized;
                 float _pushStrength = 0;
+                float _calculatedDamage = damage;
 
                 switch (hit.collider.tag)
                 {
                     case "EnemyHeadHitbox":
                         _pushStrength = headPush * hit.rigidbody.mass / 11.71875f;
-                        hit.collider.GetComponentInParent<Enemy>().Damage(damage * 3);
+                        _calculatedDamage *= 3;
                         break;
                     case "EnemyForearmHitbox":
                         _pushStrength = forearmPush * hit.rigidbody.mass / 11.71875f;
-                        hit.collider.GetComponentInParent<Enemy>().Damage(damage);
                         break;
                     case "EnemyChestHitbox":
                         _pushStrength = chestPush * hit.rigidbody.mass / 11.71875f;
-                        hit.collider.GetComponentInParent<Enemy>().Damage(damage);
                         break;
                     default:
                         _pushStrength = push * hit.rigidbody.mass / 11.71875f;
-                        hit.collider.GetComponentInParent<Enemy>().Damage(damage);
                         break;
                 }
 
-                hit.collider.GetComponentInParent<Enemy>().Push(_pushDirection, _pushStrength, hit.collider.name);
+                hit.collider.GetComponentInParent<SoldierController>().PushDamage(_calculatedDamage, _pushDirection, _pushStrength, hit.collider.name);
                 
             }
             #endregion
@@ -267,7 +265,7 @@ public class Gun : MonoBehaviour
             }
             #endregion
 
-            SoundEmitter.SpawnSoundSphere(hit.point, 9);
+            SoundEmitter.SpawnSoundSphere(hit.point, 15, 3f);
             SoundEmitter.SpawnSoundCapsule(_position.position, hit.point, 1f);
         }
         else
