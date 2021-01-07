@@ -27,7 +27,7 @@ public class InGameUIController : MonoBehaviour
     private void Update()
     {
         #region Start Menu
-        if (Input.GetButtonDown("Start"))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (menu.Equals(Menu.START))
             {

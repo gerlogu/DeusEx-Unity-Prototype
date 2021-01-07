@@ -53,6 +53,10 @@ public class EventTriggerEditor : Editor
                 eventTrigger.sunRotation = EditorGUILayout.Vector3Field("Rotation", eventTrigger.sunRotation);
                 eventTrigger.name = "Sun Modifier Area (Trigger)";
                 break;
+            case EventType.CAMERA_ROOM:
+                eventTrigger.name = "Camera Area (Trigger)";
+                eventTrigger.enemyLayer = EditorGUILayout.LayerField("Enemy Layer", eventTrigger.enemyLayer);
+                break;
         }
 
     }

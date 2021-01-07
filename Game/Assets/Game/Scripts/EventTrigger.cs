@@ -1,8 +1,7 @@
-﻿using MPUIKIT;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 public enum EventType
 {
     BATTLE_MUSIC,
@@ -10,7 +9,8 @@ public enum EventType
     STOP_MUSIC,
     START_BATTLE,
     DEATH,
-    SUN_MODIFIER
+    SUN_MODIFIER,
+    CAMERA_ROOM
 }
 
 public class EventTrigger : MonoBehaviour
@@ -19,11 +19,14 @@ public class EventTrigger : MonoBehaviour
     public int themeIndex;
     public float musicTransitionSpeed = 0.75f;
     public Vector3 sunRotation;
+    public bool activated = false;
+    public LayerMask enemyLayer;
+
+    private EnemyController enemy;
 
     private float objectiveVolume = 0;
     private MusicManager musicManager;
     private AudioSource audioSource;
-    private bool activated = false;
     private Transform player;
     private LayerMask playerLayer;
     private Vector3 respawnPoint;
@@ -52,6 +55,15 @@ public class EventTrigger : MonoBehaviour
         //{
         //    Debug.Log("Player Detected");
         //}
+        if (enemy)
+        {
+            if(enemy.isDead)
+            {
+                activated = false;
+                print("Enemy Dead");
+                enemy = null;
+            }
+        }
 
         if (!player)
         {
@@ -59,9 +71,23 @@ public class EventTrigger : MonoBehaviour
         }
     }
 
-    
+    private void OnTriggerExit(Collider other)
+    {
+        switch (eventType)
+        {
+            case EventType.CAMERA_ROOM:
+                if (other.gameObject.layer == enemyLayer && other.gameObject == enemy.gameObject)
+                {
+                    activated = false;
+                    enemy = null;
+                }
+                break;
+            default:
+                break;
+        }
+    }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         switch (eventType)
         {
@@ -111,6 +137,13 @@ public class EventTrigger : MonoBehaviour
                     }
                 }
                 break;
+            case EventType.CAMERA_ROOM:
+                if (other.gameObject.layer == enemyLayer && !enemy && other.GetComponent<EnemyController>())
+                {
+                    activated = true;
+                    enemy = other.GetComponent<EnemyController>();
+                }
+                break;
         }
     }
 
@@ -122,6 +155,10 @@ public class EventTrigger : MonoBehaviour
             Gizmos.color = new Color(Color.yellow.r, Color.yellow.g, Color.yellow.b, 0.5f);
         else if(eventType == EventType.DEATH)
             Gizmos.color = new Color(1, 0, 0, 0.5f);
+        else if (eventType == EventType.CAMERA_ROOM)
+        {
+            Gizmos.color = new Color(0, 0.2f, 0.8f, 0.5f);
+        }
 
         Gizmos.DrawCube(transform.position, transform.localScale);
     }

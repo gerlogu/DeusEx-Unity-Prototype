@@ -52,6 +52,8 @@ public class DeathState : State
         Debug.Log(_enemyController.lastHitStrength);
         Debug.Log(_enemyController.lastHitBone);
 
+        _enemyController.isDead = true;
+
         //pushable = false;
         //tag = "DeadEnemy";
         //gameObject.layer = 18;

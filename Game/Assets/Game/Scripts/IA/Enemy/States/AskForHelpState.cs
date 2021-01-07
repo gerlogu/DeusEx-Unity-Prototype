@@ -1,19 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-public class PersecutionState : State
+
+public class AskForHelpState : State
 {
     #region Variables
     private readonly SoldierController _enemyController;
-    private float lostLocationTimer;
-    private Vector3 playerLocation;
+    private float _askForHelpTime;
+    private List<EnemyController> _allies;
     #endregion
 
-    public PersecutionState(SoldierController enemyController, MyStateMachine stateMachine) : base(stateMachine)
+    public AskForHelpState(SoldierController enemyController, MyStateMachine stateMachine) : base(stateMachine)
     {
         _enemyController = enemyController;
-        lostLocationTimer = 5;
+        _askForHelpTime = 0.5f;
         _enemyController.mesh.material = _enemyController.persecutionMaterial;
 
         _enemyController.stateTextAnimator.SetBool("Alert", false);
@@ -21,10 +21,22 @@ public class PersecutionState : State
         _enemyController.stateTextAnimator.SetBool("None", false);
         _enemyController.stateText.text = "!";
         _enemyController.playerDetected = true;
-        _enemyController.Agent.speed = _enemyController.persecutionSpeed;
+        _enemyController.Agent.speed = 0;
         _enemyController.Agent.stoppingDistance = 10f;
-        _enemyController.Agent.SetDestination(_enemyController.Player.position);
-        playerLocation = _enemyController.Player.position;
+
+        //_allies = GameObject.FindObjectsOfType<EnemyController>();
+        _allies = new List<EnemyController>();
+        RaycastHit[] hits;
+        hits = Physics.SphereCastAll(_enemyController.transform.position, 40, _enemyController.player.transform.up, 1<<16);
+
+        foreach(RaycastHit hit in hits)
+        {
+            if (hit.transform.GetComponent<EnemyController>())
+            {
+                _allies.Add(hit.transform.GetComponent<EnemyController>());
+            }
+        }
+
         // if (_enemyController.Agent.enabled)
         // _enemyController.Agent.isStopped = true;
     }
@@ -38,24 +50,23 @@ public class PersecutionState : State
            //  Debug.Log("Player in Area");
             if(_enemyController.CheckPlayerVision(_enemyController.player.transform.position, 10))
             {
-                _enemyController.Agent.SetDestination(_enemyController.player.position);
-                lostLocationTimer = Random.Range(2.5f,4.5f);
-                playerLocation = _enemyController.player.transform.position;
                 Quaternion currentRot = Quaternion.LookRotation(_enemyController.player.position - _enemyController.transform.position);
                 _enemyController.transform.rotation = Quaternion.Lerp(_enemyController.transform.rotation, currentRot, 8 * Time.deltaTime);
-                Debug.Log("Persecution");
             }
             
         }
 
-        if (lostLocationTimer <= 0)
+        if (_askForHelpTime <= 0)
         {
-            stateMachine.SetState(new PatrollingState(_enemyController, stateMachine, _enemyController.currentPatrollingIndex));
+            foreach(EnemyController ally in _allies)
+            {
+                ally.AskForHelp();
+            }
+            stateMachine.SetState(new PersecutionState(_enemyController, stateMachine));
         }
-        else if(Vector3.Distance(_enemyController.transform.position, playerLocation) <= _enemyController.Agent.stoppingDistance || (_enemyController.Agent.pathStatus == NavMeshPathStatus.PathInvalid || _enemyController.Agent.pathStatus == NavMeshPathStatus.PathPartial))
+        else
         {
-            lostLocationTimer -= Time.deltaTime;
-            Debug.Log(_enemyController.Agent.pathStatus);
+            _askForHelpTime -= Time.deltaTime;
         }
 
        

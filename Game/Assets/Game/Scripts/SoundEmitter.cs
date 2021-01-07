@@ -66,7 +66,6 @@ public static class SoundEmitter
         return false;
     }
 
-
     public static bool SpawnSoundCapsule(Vector3 startPosition, Vector3 finalPosition, float radius)
     {
         bool enemyDetected = false;

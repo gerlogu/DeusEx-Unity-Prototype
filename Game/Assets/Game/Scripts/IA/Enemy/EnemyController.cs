@@ -11,6 +11,9 @@ public class EnemyController : MonoBehaviour
     public Transform player;
     public LayerMask whatIsEnemy;
     public bool playerDetected = false;
+    public bool isDead = false;
+    public bool askedForHelp = false;
+
     protected MyStateMachine stateMachine;
     public Action GoToNextStateCallback { set; private get; }
     #endregion
@@ -27,6 +30,11 @@ public class EnemyController : MonoBehaviour
         visor.OnPlayerUndetected += UndetectPlayer;
     }
 
+    public virtual void AskForHelp()
+    {
+
+    }
+
     protected virtual void CheckPlayerDetected(Vector3 playerPos, LayerMask playerLayer)
     {
         RaycastHit hitToPlayer;
@@ -38,8 +46,8 @@ public class EnemyController : MonoBehaviour
             if (hitToPlayer.transform.gameObject.layer == playerLayer)
             {
                 // Debug.Log("Player Detected");
-                if (!player)
-                    player = hitToPlayer.transform;
+                //if (!player)
+                //    player = hitToPlayer.transform;
                 DetectPlayer();
             }
             else
@@ -55,13 +63,14 @@ public class EnemyController : MonoBehaviour
         Vector3 rayDirection = (playerPos - transform.position).normalized;
         float rayDistance = (playerPos - transform.position).magnitude;
 
-        if (Physics.Raycast(transform.position, rayDirection, out hitToPlayer, rayDistance, ~whatIsEnemy))
+        if (Physics.Raycast(transform.position, rayDirection, out hitToPlayer, rayDistance + 1000, ~whatIsEnemy))
         {
             if (hitToPlayer.transform.gameObject.layer == playerLayer)
             {
                 // Debug.Log("Player Detected");
                 if (!player)
                     player = hitToPlayer.transform;
+                Debug.Log(hitToPlayer.transform.gameObject.layer + "==" + playerLayer);
                 return true;
             }
             else

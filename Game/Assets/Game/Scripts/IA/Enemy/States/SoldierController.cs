@@ -151,6 +151,13 @@ public class SoldierController : EnemyController
         // base.DetectPlayer();
         // print("PlayerDetected: " + playerDetected);
         if(!playerDetected)
+            stateMachine.SetState(new AskForHelpState(this, stateMachine));
+    }
+
+    public override void AskForHelp()
+    {
+        base.AskForHelp();
+        if (!playerDetected)
             stateMachine.SetState(new PersecutionState(this, stateMachine));
     }
 

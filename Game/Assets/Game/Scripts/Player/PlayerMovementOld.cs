@@ -580,7 +580,7 @@ public class PlayerMovementOld : MonoBehaviour
     private void Movement()
     {
         #region Crouch
-        if(Input.GetButtonDown("Crouch"))
+        if(Input.GetKeyDown(KeyCode.C))
         {
             if (!m_Crouch)
             {

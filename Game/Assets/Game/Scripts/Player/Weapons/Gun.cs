@@ -216,6 +216,8 @@ public class Gun : MonoBehaviour
         if (Physics.Raycast(_fpsCam.position, _fpsCam.forward, out hit, 1000f, ~layerToIgnore))
         {
 
+            print(hit.transform.gameObject.name);
+
             #region Parte únicamente visual de la bala
             if (projectile)
             {
