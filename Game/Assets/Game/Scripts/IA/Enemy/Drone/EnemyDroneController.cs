@@ -46,6 +46,7 @@ public class EnemyDroneController : EnemyController
         _collider = GetComponent<Collider>();
 
         rb = GetComponent<Rigidbody>();
+
     }
 
     protected override void Start()
@@ -68,7 +69,7 @@ public class EnemyDroneController : EnemyController
 
     public override void DetectPlayer()
     {
-        print("PlayerDetected: " + playerDetected);
+        print("DRONE PlayerDetected: " + playerDetected);
         if (!playerDetected)
             stateMachine.SetState(new DronePersecutionState(this, stateMachine));
     }

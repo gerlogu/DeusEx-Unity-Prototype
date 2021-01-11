@@ -18,7 +18,7 @@ public static class SoundEmitter
         for (int i = 0; i < hitColliders.Length; i++)
         {
             SoldierController enemy = hitColliders[i].GetComponent<SoldierController>();
-            if (!enemy.playerDetected)
+            if (enemy && !enemy.playerDetected)
             {
                 enemy.Alert(position);
                 // enemy.DetectPlayer();
@@ -50,7 +50,7 @@ public static class SoundEmitter
         for (int i = 0; i < hitColliders.Length; i++)
         {
             SoldierController enemy = hitColliders[i].GetComponent<SoldierController>();
-            if (!enemy.playerDetected)
+            if (enemy && !enemy.playerDetected)
             {
                 enemy.Alert(position);
                 return true;
