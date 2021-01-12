@@ -7,6 +7,8 @@ public class EnemyDroneController : EnemyController
 {
 
     private Collider _collider;
+    private Collider _droneCollider;
+
 
     [HideInInspector] public Vector3 lastHitDirection;
     [HideInInspector] public float lastHitStrength;
@@ -44,6 +46,7 @@ public class EnemyDroneController : EnemyController
         Agent = GetComponent<NavMeshAgent>();
         Player = FindObjectOfType<PlayerMovementOld>().transform;
         _collider = GetComponent<Collider>();
+        _droneCollider = GetComponentInChildren<BoxCollider>();
 
         rb = GetComponent<Rigidbody>();
 
@@ -96,6 +99,15 @@ public class EnemyDroneController : EnemyController
 
     public void PushDamage(float damage, Vector3 hitDirection, float hitStrength, string bone)
     {
+
+        print("<color=cyan>Drone ready to die!</color>");
+
+        //if (_droneCollider)
+        //{
+        //    print("<color=red>Drone dying!</color>");
+        //    stateMachine.SetState(new DroneDeathState(this, stateMachine));
+        //}
+
         lastHitDirection = hitDirection;
         lastHitStrength = hitStrength;
         lastHitBone = bone;

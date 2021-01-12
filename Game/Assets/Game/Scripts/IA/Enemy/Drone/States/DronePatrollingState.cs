@@ -18,7 +18,7 @@ public class DronePatrollingState : State
         _enemyController.Agent.speed = _enemyController.normalSpeed;
         _enemyController.playerDetected = false;
         _enemyController.Agent.stoppingDistance = 1f;
-        Debug.Log("Patrolling State");
+        Debug.Log("Drone Patrolling State");
     }
 
     public override void Update(float deltaTime)
