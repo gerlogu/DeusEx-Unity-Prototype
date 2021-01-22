@@ -29,7 +29,8 @@ public class DronePersecutionState : State
 
         if (Physics.CheckSphere(_enemyController.transform.position, _enemyController.lookingForPlayerArea, 1 << 10))
         {
-            //Debug.Log("DRONE Player in Area");
+            Debug.Log("DRONE Player in Area");
+
             if (_enemyController.CheckPlayerVision(_enemyController.player.transform.position, 10))
             {
                 _enemyController.Agent.SetDestination(_enemyController.player.position);
@@ -49,7 +50,7 @@ public class DronePersecutionState : State
         else if (Vector3.Distance(_enemyController.transform.position, playerLocation) <= _enemyController.Agent.stoppingDistance || (_enemyController.Agent.pathStatus == NavMeshPathStatus.PathInvalid || _enemyController.Agent.pathStatus == NavMeshPathStatus.PathPartial))
         {
             lostLocationTimer -= Time.deltaTime;
-            //Debug.Log(_enemyController.Agent.pathStatus);
+            Debug.Log("DRONE: " + _enemyController.Agent.pathStatus);
         }
 
 

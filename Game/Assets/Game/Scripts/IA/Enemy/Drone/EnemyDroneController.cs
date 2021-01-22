@@ -74,6 +74,13 @@ public class EnemyDroneController : EnemyController
     {
         print("DRONE PlayerDetected: " + playerDetected);
         if (!playerDetected)
+            stateMachine.SetState(new DroneAskForHelpState(this, stateMachine));
+    }
+
+    public override void AskForHelp()
+    {
+        base.AskForHelp();
+        if (!playerDetected)
             stateMachine.SetState(new DronePersecutionState(this, stateMachine));
     }
 
