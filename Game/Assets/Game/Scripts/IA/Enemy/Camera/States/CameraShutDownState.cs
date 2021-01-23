@@ -1,4 +1,14 @@
-﻿
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+/// <summary>
+/// Clase que representa el estado de "muerte"
+/// de la cámara. Se llega a este mismo a través
+/// de la eliminación del operario que maneja
+/// la cámara.
+/// </summary>
+
 public class CameraShutDownState : State
 {
     #region Variables

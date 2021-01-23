@@ -1,6 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Clase que representa el estado de "pedir ayuda" 
+/// del enemigo humano. Entra en este estado justo
+/// cuando el soldado detecta al jugador y comienza
+/// la persecución. Antes de perseguirle, da la alarma
+/// a sus aliados en un radio cercano.
+/// </summary>
+
 public class AskForHelpState : State
 {
     #region Variables
@@ -9,6 +17,7 @@ public class AskForHelpState : State
     private List<EnemyController> _allies;
     #endregion
 
+    #region Method
     public AskForHelpState(SoldierController enemyController, MyStateMachine stateMachine) : base(stateMachine)
     {
         _enemyController = enemyController;
@@ -47,6 +56,7 @@ public class AskForHelpState : State
                 Quaternion currentRot = Quaternion.LookRotation(_enemyController.player.position - _enemyController.transform.position);
                 _enemyController.transform.rotation = Quaternion.Lerp(_enemyController.transform.rotation, currentRot, 8 * Time.deltaTime);
             }
+            
         }
 
         if (_askForHelpTime <= 0)
@@ -61,5 +71,8 @@ public class AskForHelpState : State
         {
             _askForHelpTime -= Time.deltaTime;
         }
+
+       
     }
+    #endregion
 }

@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// Clase que representa el estado de "muerte" 
+/// del soldado. Entra en este estado cuando el
+/// jugador le acierta un disparo.
+/// </summary>
+
 public class DeathState : State
 {
     #region Variables

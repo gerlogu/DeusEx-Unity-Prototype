@@ -1,5 +1,11 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Clase que representa el estado de "vigilancia" 
+/// de la cámara. Es el estado por defecto
+/// en el que se encuentra desde el comienzo de la partida
+/// </summary>
+
 public class CameraLookOutState : State
 {
     #region Variables
@@ -23,7 +29,7 @@ public class CameraLookOutState : State
             {
                 _enemyController.currentRotation += 5 * Time.deltaTime;
 
-                _enemyController.cameraPivot.localRotation = Quaternion.Euler(0, _enemyController.currentRotation, 0);
+                _enemyController.cameraPivot.localRotation = Quaternion.Euler(0, _enemyController.currentRotation, 0); 
                 if (_enemyController.currentRotation >= 40)
                 {
                     _enemyController.inverseRotation = true;

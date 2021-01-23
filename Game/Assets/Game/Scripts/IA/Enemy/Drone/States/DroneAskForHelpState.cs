@@ -1,6 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Clase que representa el estado de "pedir ayuda" 
+/// del dron. Entra en este estado de forma automática
+/// al detectar al jugador, justo antes de pasar a la
+/// persecución. Alerta de la presencia del jugador a 
+/// los enemigos que se encuentren en un radio cercano.
+/// </summary>
+
 public class DroneAskForHelpState : State
 {
     #region Variables
@@ -9,6 +17,7 @@ public class DroneAskForHelpState : State
     private List<EnemyController> _allies;
     #endregion
 
+    #region Methods
     public DroneAskForHelpState(EnemyDroneController enemyController, MyStateMachine stateMachine) : base(stateMachine)
     {
         _enemyController = enemyController;
@@ -57,6 +66,6 @@ public class DroneAskForHelpState : State
         {
             _askForHelpTime -= Time.deltaTime;
         }
-
     }
+    #endregion
 }

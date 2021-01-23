@@ -1,6 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Clase que representa el estado de "persecución" 
+/// de la cámara. Entra en este estado si el visor asociado
+/// a la misma detecta al jugador.
+/// </summary>
+
 public class CameraPersecutionState : State
 {
     #region Variables

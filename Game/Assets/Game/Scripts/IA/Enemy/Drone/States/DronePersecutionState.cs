@@ -1,13 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// Clase que representa el estado de "persecución" 
+/// del dron. Entra en este estado si el visor asociado
+/// al mismo detecta al jugador.
+/// </summary>
+
 public class DronePersecutionState : State
 {
+    #region Variables
     private readonly EnemyDroneController _enemyController;
     private float lostLocationTimer;
     private Vector3 playerLocation;
     private float _timeToShoot;
+    #endregion
 
+    #region Methods
     public DronePersecutionState(EnemyDroneController enemyController, MyStateMachine stateMachine) : base(stateMachine)
     {
         _enemyController = enemyController;
@@ -59,4 +68,6 @@ public class DronePersecutionState : State
             lostLocationTimer -= Time.deltaTime;
         }
     }
+
+    #endregion
 }

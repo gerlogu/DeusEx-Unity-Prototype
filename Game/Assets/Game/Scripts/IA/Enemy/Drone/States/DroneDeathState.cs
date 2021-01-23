@@ -1,9 +1,18 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Clase que representa el estado de "muerte" 
+/// del dron. Entra en este estado cuando el 
+/// jugador le acierta un disparo y lo derriba.
+/// </summary>
+
 public class DroneDeathState : State
 {
+    #region Variables
     private readonly EnemyDroneController _enemyController;
+    #endregion
 
+    #region Methods
     public DroneDeathState(EnemyDroneController enemyController, MyStateMachine stateMachine) : base(stateMachine)
     {
         _enemyController = enemyController;
@@ -22,4 +31,5 @@ public class DroneDeathState : State
 
         _enemyController.isDead = true;
     }
+    #endregion
 }

@@ -1,6 +1,13 @@
 ﻿using UnityEngine.AI;
 using UnityEngine;
 
+/// <summary>
+/// Clase que representa la máquina de estados que 
+/// controla el comportamiento del tipo de enemigo:
+/// dron. Gestiona el cambio de estados en base a las
+/// condiciones previamente establecidas.
+/// </summary>
+
 public class EnemyDroneController : EnemyController
 {
     [HideInInspector] public Vector3 lastHitDirection;
