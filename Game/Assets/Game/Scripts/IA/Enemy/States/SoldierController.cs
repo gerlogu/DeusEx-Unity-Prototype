@@ -2,6 +2,14 @@
 using UnityEngine.AI;
 using TMPro;
 
+/// <summary>
+/// Clase que representa la máquina de estados que 
+/// controla el comportamiento del tipo de enemigo:
+/// soldado. Gestiona el cambio de estados en base a las
+/// condiciones previamente establecidas en la memoria
+/// y los diagramas de estados UML.
+/// </summary>
+
 public class SoldierController : EnemyController
 {
     #region Variables

@@ -1,6 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// Clase que representa el estado de "persecución" 
+/// del soldado. Entra en este estado si el visor asociado
+/// a la misma detecta al jugador o si lo escucha a una
+/// distancia lo suficientemente cercana como para
+/// reconocerlo como una amenaza.
+/// </summary>
+
 public class PersecutionState : State
 {
     #region Variables
@@ -9,6 +17,7 @@ public class PersecutionState : State
     private Vector3 playerLocation;
     #endregion
 
+    #region Methods
     public PersecutionState(SoldierController enemyController, MyStateMachine stateMachine) : base(stateMachine)
     {
         _enemyController = enemyController;
@@ -51,4 +60,6 @@ public class PersecutionState : State
             lostLocationTimer -= Time.deltaTime;
         }
     }
+
+    #endregion Methods
 }

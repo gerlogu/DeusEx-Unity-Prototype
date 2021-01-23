@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Clase que representa el estado de "patrulla" 
+/// del soldado. Es su estado por defecto, 
+/// realiza un recorrido entre los distintos 
+/// puntos establecidos en Unity.
+/// </summary>
+
 public class PatrollingState : State
 {
     #region Variables

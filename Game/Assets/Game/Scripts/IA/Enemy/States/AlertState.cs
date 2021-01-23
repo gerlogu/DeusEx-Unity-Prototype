@@ -1,4 +1,14 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+/// <summary>
+/// Clase que representa el estado de "alerta" 
+/// del soldado. Entra en este estado si detecta 
+/// algún sonido lejano. Se mantiene durante algunos
+/// segundos antes de seguir patrullando o de perseguir
+/// al jugador.
+/// </summary>
 
 public class AlertState : State
 {
@@ -8,6 +18,7 @@ public class AlertState : State
     private float _timeToStartPatrolling;
     #endregion
 
+    #region Methods
     public AlertState(SoldierController enemyController, MyStateMachine stateMachine, Vector3 position) : base(stateMachine)
     {
         _enemyController = enemyController;
@@ -40,4 +51,5 @@ public class AlertState : State
             _timeToStartPatrolling -= Time.deltaTime;
         }
     }
+    #endregion
 }

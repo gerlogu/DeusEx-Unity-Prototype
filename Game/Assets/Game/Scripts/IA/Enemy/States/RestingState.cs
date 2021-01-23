@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Clase que representa el estado de "descanso" 
+/// del soldado. Entra en este estado cada vez que,
+/// durante su recorrido, alcanza uno de los puntos 
+/// clave, donde se pausa y descansa unos segundos.
+/// </summary>
+
 public class RestingState : State
 {
     #region Variables
@@ -9,6 +16,7 @@ public class RestingState : State
     private float _timeToRest;
     #endregion
 
+    #region Methods
     public RestingState(SoldierController enemyController, MyStateMachine stateMachine) : base(stateMachine)
     {
         _enemyController = enemyController;
@@ -37,4 +45,5 @@ public class RestingState : State
             _timeToRest -= Time.deltaTime;
         }
     }
+    #endregion
 }
