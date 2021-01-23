@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Script controlador de la cámara.
+/// Representa la máquina de estados que
+/// conforma la IA y gestiona el cambio
+/// de estados según las condiciones en
+/// las que se encuentre en el momento.
+/// </summary>
+
 public class EnemyCameraController : EnemyController
 {
     public Transform cameraBase;
@@ -21,10 +29,8 @@ public class EnemyCameraController : EnemyController
 
     public override void DetectPlayer()
     {
-        // base.DetectPlayer();
         if (!playerDetected)
         {
-            // stateMachine.SetState(new CameraPersecutionState(this, stateMachine));
             playerDetected = true;
         }
             
@@ -34,7 +40,6 @@ public class EnemyCameraController : EnemyController
     {
         if (playerDetected)
         {
-            // stateMachine.SetState(new CameraPersecutionState(this, stateMachine));
             playerDetected = false;
         }
     }

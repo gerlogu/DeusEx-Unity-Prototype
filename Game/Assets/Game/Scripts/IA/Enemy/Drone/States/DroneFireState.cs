@@ -2,7 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DroneFireState : MonoBehaviour
+/// <summary>
+/// Clase que representa el estado de "disparar" 
+/// del dron. Desde el estado de patrulla, llega a
+/// este si el jugador se encuentra a tiro.
+/// </summary>
+
+public class DroneFireState : State
 {
     // Start is called before the first frame update
     void Start()

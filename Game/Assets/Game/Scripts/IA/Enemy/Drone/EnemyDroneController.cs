@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine.AI;
 using UnityEngine;
 
+/// <summary>
+/// Clase que representa la máquina de estados que 
+/// controla el comportamiento del tipo de enemigo:
+/// dron. Gestiona el cambio de estados en base a las
+/// condiciones previamente establecidas.
+/// </summary>
+
 public class EnemyDroneController : EnemyController
 {
 
@@ -106,15 +113,6 @@ public class EnemyDroneController : EnemyController
 
     public void PushDamage(float damage, Vector3 hitDirection, float hitStrength, string bone)
     {
-
-        print("<color=cyan>Drone ready to die!</color>");
-
-        //if (_droneCollider)
-        //{
-        //    print("<color=red>Drone dying!</color>");
-        //    stateMachine.SetState(new DroneDeathState(this, stateMachine));
-        //}
-
         lastHitDirection = hitDirection;
         lastHitStrength = hitStrength;
         lastHitBone = bone;

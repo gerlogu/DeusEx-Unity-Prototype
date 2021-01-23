@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Clase que representa el estado de "muerte"
+/// de la cámara. Se llega a este mismo a través
+/// de la eliminación del operario que maneja
+/// la cámara.
+/// </summary>
+
 public class CameraShutDownState : State
 {
     #region Variables
@@ -13,7 +20,6 @@ public class CameraShutDownState : State
     public CameraShutDownState(EnemyCameraController enemyController, MyStateMachine stateMachine) : base(stateMachine)
     {
         _enemyController = enemyController;
-        // _enemyController.cameraPivot.localRotation = Quaternion.identity;
     }
 
     public override void Update(float deltaTime)

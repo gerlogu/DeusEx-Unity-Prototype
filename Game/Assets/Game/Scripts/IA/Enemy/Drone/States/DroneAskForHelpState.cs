@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Clase que representa el estado de "pedir ayuda" 
+/// del dron. Entra en este estado de forma automática
+/// al detectar al jugador, justo antes de pasar a la
+/// persecución. Alerta de la presencia del jugador a 
+/// los enemigos que se encuentren en un radio cercano.
+/// </summary>
+
 public class DroneAskForHelpState : State
 {
     #region Variables
@@ -10,6 +18,7 @@ public class DroneAskForHelpState : State
     private List<EnemyController> _allies;
     #endregion
 
+    #region Methods
     public DroneAskForHelpState(EnemyDroneController enemyController, MyStateMachine stateMachine) : base(stateMachine)
     {
         _enemyController = enemyController;
@@ -20,7 +29,6 @@ public class DroneAskForHelpState : State
         _enemyController.Agent.speed = 0;
         _enemyController.Agent.stoppingDistance = 10f;
 
-        //_allies = GameObject.FindObjectsOfType<EnemyController>();
         _allies = new List<EnemyController>();
         RaycastHit[] hits;
         hits = Physics.SphereCastAll(_enemyController.transform.position, 40, _enemyController.player.transform.up, 1 << 16);
@@ -32,9 +40,6 @@ public class DroneAskForHelpState : State
                 _allies.Add(hit.transform.GetComponent<EnemyController>());
             }
         }
-
-        // if (_enemyController.Agent.enabled)
-        // _enemyController.Agent.isStopped = true;
     }
 
     public override void Update(float deltaTime)
@@ -43,7 +48,6 @@ public class DroneAskForHelpState : State
 
         if (Physics.CheckSphere(_enemyController.transform.position, _enemyController.lookingForPlayerArea, 1 << 10))
         {
-            //  Debug.Log("Player in Area");
             if (_enemyController.CheckPlayerVision(_enemyController.player.transform.position, 10))
             {
                 Quaternion currentRot = Quaternion.LookRotation(_enemyController.player.position - _enemyController.transform.position);
@@ -64,7 +68,6 @@ public class DroneAskForHelpState : State
         {
             _askForHelpTime -= Time.deltaTime;
         }
-
-
     }
+    #endregion
 }

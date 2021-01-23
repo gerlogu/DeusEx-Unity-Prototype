@@ -1,14 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+/// <summary>
+/// Clase que representa el estado de "patrulla" 
+/// del dron. Es su estado por defecto, en el que
+/// comienza al empezar la partida. Realiza un 
+/// recorrido en base a una serie de puntos claves.
+/// </summary>
 
 public class DronePatrollingState : State
 {
-
+    #region Variables
     private readonly EnemyDroneController _enemyController;
     private int _patrollingIndex;
+    #endregion
 
-
+    #region Methods
     public DronePatrollingState(EnemyDroneController enemyController, MyStateMachine stateMachine, int patrollingIndex) : base(stateMachine)
     {
         _patrollingIndex = patrollingIndex;
@@ -39,4 +45,5 @@ public class DronePatrollingState : State
             }
         }
     }
+    #endregion
 }

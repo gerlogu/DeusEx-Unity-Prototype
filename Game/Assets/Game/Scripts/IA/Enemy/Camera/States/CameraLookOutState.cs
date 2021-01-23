@@ -1,6 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+/// <summary>
+/// Clase que representa el estado de "vigilancia" 
+/// de la cámara. Es el estado por defecto
+/// en el que se encuentra desde el comienzo de la partida
+/// </summary>
 
 public class CameraLookOutState : State
 {
@@ -17,15 +21,6 @@ public class CameraLookOutState : State
     {
         _enemyController = enemyController;
         _enemyController.cameraBase.localRotation = _enemyController.originalCameraBaseRotation;
-
-        // _enemyController.mesh.material = _enemyController.patrollingMaterial;
-        // _enemyController.stateTextAnimator.SetBool("Alert", false);
-        // _enemyController.stateTextAnimator.SetBool("Persecution", false);
-        // _enemyController.stateTextAnimator.SetBool("None", true);
-        // _enemyController.Agent.speed = _enemyController.normalSpeed;
-        // _enemyController.playerDetected = false;
-        // _enemyController.Agent.stoppingDistance = 1f;
-        // Debug.Log("Patrolling State");
     }
 
     public override void Update(float deltaTime)
@@ -37,7 +32,7 @@ public class CameraLookOutState : State
             {
                 _enemyController.currentRotation += 5 * Time.deltaTime;
 
-                _enemyController.cameraPivot.localRotation = Quaternion.Euler(0, _enemyController.currentRotation, 0); // Quaternion.Euler(Vector3.Lerp(_enemyController.cameraPivot.localRotation.eulerAngles, new Vector3(0, 45, 0), 1f * Time.deltaTime));
+                _enemyController.cameraPivot.localRotation = Quaternion.Euler(0, _enemyController.currentRotation, 0); 
                 if (_enemyController.currentRotation >= 40)
                 {
                     _enemyController.inverseRotation = true;
