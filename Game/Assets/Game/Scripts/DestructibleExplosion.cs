@@ -24,6 +24,8 @@ public class DestructibleExplosion : MonoBehaviour
     [SerializeField] private float pushForce = 50;
     [Tooltip("Explosion Location")]
     [SerializeField] private Transform explosionBase;
+    [Tooltip("Sound Radius")]
+    [SerializeField] private float soundRadius = 20;
 
     private SoundManager soundManager; // Sound Manager
     private AudioSource audioSource;   // Audio Source
@@ -47,6 +49,8 @@ public class DestructibleExplosion : MonoBehaviour
         {
             soundManager = FindObjectOfType<SoundManager>();
         }
+
+        SoundEmitter.SpawnSoundSphere(this.transform.position, soundRadius);
 
         soundManager.gameElements.PlaySFX(audioSource, GameElementsSound.BARREL_EXPLOSION);
 
@@ -89,8 +93,8 @@ public class DestructibleExplosion : MonoBehaviour
                     if (rayHit.collider.CompareTag("Enemy"))
                     {
                         Vector3 deathPush = (hit.transform.position - explosionBase.position).normalized;
-                        hit.collider.GetComponent<Enemy>().Damage(50);
-                        hit.collider.GetComponent<Enemy>().Push(deathPush, pushForce);
+                        hit.collider.GetComponent<EnemyController>().TakeDamage(200);
+                        //hit.collider.GetComponent<EnemyController>().Push(deathPush, pushForce);
 
                     }
                 }

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Febucci.UI;
@@ -83,7 +82,6 @@ public class EnemyDialogueController : MonoBehaviour
                 dialogueText.color = originalColor;
                 int random = UnityEngine.Random.Range(0, values.Count);
                 sentence = values[random][1];
-                // print("values.Count: " + values.Count + " | Random Value: " + random);
                 textAnimatorPlayer.ShowText(sentence);
             }
         }

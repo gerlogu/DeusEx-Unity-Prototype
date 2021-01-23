@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
+﻿using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
@@ -15,7 +12,6 @@ public class EnemyController : MonoBehaviour
     public bool askedForHelp = false;
 
     protected MyStateMachine stateMachine;
-    public Action GoToNextStateCallback { set; private get; }
     #endregion
 
     #region Methods
@@ -45,9 +41,6 @@ public class EnemyController : MonoBehaviour
         {
             if (hitToPlayer.transform.gameObject.layer == playerLayer)
             {
-                // Debug.Log("Player Detected");
-                //if (!player)
-                //    player = hitToPlayer.transform;
                 DetectPlayer();
             }
             else
@@ -67,17 +60,12 @@ public class EnemyController : MonoBehaviour
         {
             if (hitToPlayer.transform.gameObject.layer == playerLayer)
             {
-                // Debug.Log("Player Detected");
                 if (!player)
                     player = hitToPlayer.transform;
-                Debug.Log(hitToPlayer.transform.gameObject.layer + "==" + playerLayer);
                 return true;
             }
             else
             {
-                Debug.Log(hitToPlayer.transform.gameObject.layer + "!=" + playerLayer);
-                
-
                 return false;
             }
         }
@@ -93,11 +81,6 @@ public class EnemyController : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         stateMachine.FixedUpdate(Time.deltaTime);
-    }
-
-    protected void GoToNextState()
-    {
-        GoToNextStateCallback?.Invoke();
     }
 
     protected virtual void Die()
@@ -120,8 +103,7 @@ public class EnemyController : MonoBehaviour
 
     public virtual void UndetectPlayer()
     {
-        // Debug.Log("Player Not Detected");
-        //playerDetected = false;
+
     }
 
     public virtual void TakeDamage(float damage)

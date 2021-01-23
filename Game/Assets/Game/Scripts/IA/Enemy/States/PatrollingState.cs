@@ -21,7 +21,6 @@ public class PatrollingState : State
         _enemyController.Agent.speed = _enemyController.normalSpeed;
         _enemyController.playerDetected = false;
         _enemyController.Agent.stoppingDistance = 1f;
-        Debug.Log("Patrolling State");
     }
 
     public override void Update(float deltaTime)
@@ -37,7 +36,6 @@ public class PatrollingState : State
             {
                 if (col.transform == _enemyController.points[_patrollingIndex])
                 {
-                    Debug.Log("Location Reached.");
                     stateMachine.SetState(new RestingState(_enemyController, stateMachine));
                 }
             }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.AI;
+﻿using UnityEngine.AI;
 using UnityEngine;
 
 /// <summary>
@@ -12,21 +10,12 @@ using UnityEngine;
 
 public class EnemyDroneController : EnemyController
 {
-
-    private Collider _collider;
-    private Collider _droneCollider;
-
-
     [HideInInspector] public Vector3 lastHitDirection;
     [HideInInspector] public float lastHitStrength;
     [HideInInspector] public string lastHitBone;
 
     public NavMeshAgent Agent { get; private set; }
     public Transform Player { get; private set; }
-    public Transform Transform => transform;
-
-    private Vector3 DirectionToPlayer =>
-    (Player.position - Transform.position).normalized;
 
     [HideInInspector] public Rigidbody rb;
 
@@ -52,8 +41,6 @@ public class EnemyDroneController : EnemyController
 
         Agent = GetComponent<NavMeshAgent>();
         Player = FindObjectOfType<PlayerMovementOld>().transform;
-        _collider = GetComponent<Collider>();
-        _droneCollider = GetComponentInChildren<BoxCollider>();
 
         rb = GetComponent<Rigidbody>();
 
@@ -64,7 +51,6 @@ public class EnemyDroneController : EnemyController
         base.Start();
 
         stateMachine.SetInitialState(new DronePatrollingState(this, stateMachine, 1));
-        transform.forward = DirectionToPlayer;
     }
 
     protected override void Update()
@@ -79,7 +65,6 @@ public class EnemyDroneController : EnemyController
 
     public override void DetectPlayer()
     {
-        print("DRONE PlayerDetected: " + playerDetected);
         if (!playerDetected)
             stateMachine.SetState(new DroneAskForHelpState(this, stateMachine));
     }
@@ -101,11 +86,7 @@ public class EnemyDroneController : EnemyController
     {
         base.TakeDamage(damage);
 
-        if (health > 0)
-        {
-
-        }
-        else
+        if (health <= 0)
         {
             stateMachine.SetState(new DroneDeathState(this, stateMachine));
         }

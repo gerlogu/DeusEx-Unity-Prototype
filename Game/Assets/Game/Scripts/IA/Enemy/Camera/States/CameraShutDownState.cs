@@ -13,7 +13,6 @@ public class CameraShutDownState : State
 {
     #region Variables
     private readonly EnemyCameraController _enemyController;
-    private int _patrollingIndex;
     #endregion
 
     #region Methods

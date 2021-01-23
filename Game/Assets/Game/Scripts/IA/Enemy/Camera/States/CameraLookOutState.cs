@@ -10,9 +10,6 @@ public class CameraLookOutState : State
 {
     #region Variables
     private readonly EnemyCameraController _enemyController;
-    private int _patrollingIndex;
-    
-    
     private float _timeToChangeDirection;
     #endregion
 
@@ -42,7 +39,7 @@ public class CameraLookOutState : State
             else
             {
                 _enemyController.currentRotation -= 5 * Time.deltaTime;
-                _enemyController.cameraPivot.localRotation = Quaternion.Euler(0, _enemyController.currentRotation, 0); // = Quaternion.Euler(Vector3.Lerp(_enemyController.cameraPivot.localRotation.eulerAngles, new Vector3(0, -45, 0), 1f * Time.deltaTime));
+                _enemyController.cameraPivot.localRotation = Quaternion.Euler(0, _enemyController.currentRotation, 0);
                 if (_enemyController.currentRotation <= -40)
                 {
                     _enemyController.inverseRotation = false;
@@ -55,8 +52,6 @@ public class CameraLookOutState : State
             _timeToChangeDirection -= Time.deltaTime;
         }
         
-        
-
         if (_enemyController.playerDetected && _enemyController.cameraArea.activated)
            stateMachine.SetState(new CameraPersecutionState(_enemyController, stateMachine));
         else if(!_enemyController.cameraArea.activated)
