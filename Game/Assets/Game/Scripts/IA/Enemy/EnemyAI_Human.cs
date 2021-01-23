@@ -66,7 +66,7 @@ public class EnemyAI_Human : MonoBehaviour
         if (playerDetected)
         {
             if (!player)
-                player = FindObjectOfType<PlayerMovementOld>().transform;
+                player = FindObjectOfType<PlayerMovement>().transform;
             currentRot = Quaternion.LookRotation(player.position - transform.position);
             this.transform.rotation = Quaternion.Lerp(this.transform.rotation, currentRot, 8 * Time.deltaTime);
         }

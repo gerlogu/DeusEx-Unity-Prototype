@@ -47,13 +47,17 @@ public class SoldierController : EnemyController
     public float normalSpeed = 5;
     public float persecutionSpeed = 10;
 
+    public GameObject shotPrefab;
+
+    public Transform weapon;
+
     #region Methods
     protected override void Awake()
     {
         base.Awake();
 
         Agent = GetComponent<NavMeshAgent>();
-        Player = FindObjectOfType<PlayerMovementOld>().transform;
+        Player = FindObjectOfType<PlayerMovement>().transform;
         _collider = GetComponent<Collider>();
 
         rb = GetComponent<Rigidbody>();

@@ -25,18 +25,24 @@ public class EnemyDroneController : EnemyController
     public int currentPatrollingIndex = 1;
 
     public Transform[] points;
+    public GameObject shotPrefab;
+    public Transform weapon;
 
     #region Method
-
     protected override void Awake()
     {
         base.Awake();
 
         Agent = GetComponent<NavMeshAgent>();
-        Player = FindObjectOfType<PlayerMovementOld>().transform;
+        Player = FindObjectOfType<PlayerMovement>().transform;
 
+        
         rb = GetComponent<Rigidbody>();
 
+        if (!rb)
+        {
+            rb = GetComponentInChildren<Rigidbody>();
+        }
     }
 
     protected override void Start()

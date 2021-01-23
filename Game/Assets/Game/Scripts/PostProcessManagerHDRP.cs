@@ -7,7 +7,7 @@ using UnityEngine.Rendering.HighDefinition;
 public class PostProcessManagerHDRP : MonoBehaviour
 {
     [SerializeField] private Volume m_Volume;
-    [SerializeField] private PlayerMovementOld m_Player;
+    [SerializeField] private PlayerMovement m_Player;
     [SerializeField] private float originalChromaticAberration = 0.1f;
 
     ChromaticAberration chromaticAberration;
@@ -22,7 +22,7 @@ public class PostProcessManagerHDRP : MonoBehaviour
     {
         if (!m_Player)
         {
-            m_Player = FindObjectOfType<PlayerMovementOld>();
+            m_Player = FindObjectOfType<PlayerMovement>();
         }
 
         if (!m_Volume)

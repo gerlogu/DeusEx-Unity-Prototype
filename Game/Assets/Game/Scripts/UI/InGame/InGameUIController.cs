@@ -31,7 +31,7 @@ public class InGameUIController : MonoBehaviour
         {
             if (menu.Equals(Menu.START))
             {
-                FindObjectOfType<PlayerMovementOld>().fov = FindObjectOfType<CameraFOVController>().fieldOfView;
+                FindObjectOfType<PlayerMovement>().fov = FindObjectOfType<CameraFOVController>().fieldOfView;
                 menu = Menu.NONE;
                 
             }

@@ -23,7 +23,7 @@ public class PostProcessManagerURP : MonoBehaviour
     //LensDistortion lensDistortionLayer = null;
     //ChromaticAberration chromaticAberrationLayer = null;
 
-    private PlayerMovementOld player;
+    private PlayerMovement player;
 
     Volume volume;
     // Start is called before the first frame update
@@ -36,9 +36,9 @@ public class PostProcessManagerURP : MonoBehaviour
         //volume.profile.TryGetSettings(out lensDistortionLayer);
         //originalLensDistortionIntensity = lensDistortionLayer.intensity.value;
 
-        if (FindObjectOfType<PlayerMovementOld>())
+        if (FindObjectOfType<PlayerMovement>())
         {
-            player = FindObjectOfType<PlayerMovementOld>();
+            player = FindObjectOfType<PlayerMovement>();
             player.OnInitSprint += () => {
                 newLensDistortionIntensity = -maxLensDistortionIntensity;
             };
@@ -56,9 +56,9 @@ public class PostProcessManagerURP : MonoBehaviour
 
         //chromaticAberrationLayer.intensity.value = aberrationIntensity;
 
-        if (FindObjectOfType<PlayerMovementOld>() && !player)
+        if (FindObjectOfType<PlayerMovement>() && !player)
         {
-            player = FindObjectOfType<PlayerMovementOld>();
+            player = FindObjectOfType<PlayerMovement>();
             player.OnInitSprint += () => {
                 newLensDistortionIntensity = -maxLensDistortionIntensity;
             };

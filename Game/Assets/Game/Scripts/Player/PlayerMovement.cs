@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Player Movement --> Walk, Run, Jump, Hookshot
 /// </summary>
-public class PlayerMovementOld : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     private CharacterController controller;
     private Vector3 gravityVelocity;
@@ -29,6 +29,7 @@ public class PlayerMovementOld : MonoBehaviour
     [SerializeField] private int maxJumps = 2;
     [SerializeField] private int maxDashes = 2;
     [SerializeField] private float accelerationFactor;
+    [SerializeField] private int playerHealth = 100;
 
     private Inclination inclination;
     public enum Inclination
@@ -136,7 +137,10 @@ public class PlayerMovementOld : MonoBehaviour
         speedParticles.enableEmission = false;
     }
 
-    
+    public void TakeDamage(int damage)
+    {
+        playerHealth -= damage;
+    }
 
     private GameObject lastHookObject;
 

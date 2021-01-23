@@ -9,7 +9,7 @@ public class Hookshot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = FindObjectOfType<PlayerMovementOld>().gameObject.transform;
+        player = FindObjectOfType<PlayerMovement>().gameObject.transform;
     }
 
     // Update is called once per frame

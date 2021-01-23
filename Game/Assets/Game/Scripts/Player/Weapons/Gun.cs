@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.PlayerLoop;
+﻿using UnityEngine;
 
 public enum WeaponType
 {
@@ -252,7 +249,12 @@ public class Gun : MonoBehaviour
                         break;
                 }
 
-                hit.collider.GetComponentInParent<SoldierController>().PushDamage(_calculatedDamage, _pushDirection, _pushStrength, hit.collider.name);
+                if(hit.collider.GetComponentInParent<SoldierController>())
+                    hit.collider.GetComponentInParent<SoldierController>().PushDamage(_calculatedDamage, _pushDirection, _pushStrength, hit.collider.name);
+                else if (hit.collider.GetComponentInParent<EnemyDroneController>())
+                {
+                    hit.collider.GetComponentInParent<EnemyDroneController>().TakeDamage(_calculatedDamage);
+                }
                 
             }
             #endregion

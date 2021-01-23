@@ -14,9 +14,11 @@ public class DroneDeathState : State
             _enemyController.visor.gameObject.SetActive(false);
         if (_enemyController.GetComponent<EnemyAI_Human>())
             _enemyController.GetComponent<EnemyAI_Human>().enabled = false;
-        _enemyController.rb.constraints = RigidbodyConstraints.None;
 
-        _enemyController.GetComponentInChildren<Animator>().enabled = false;
+        _enemyController.rb.constraints = RigidbodyConstraints.None;
+        _enemyController.rb.isKinematic = false;
+        _enemyController.rb.gameObject.layer = 18;
+        _enemyController.Agent.isStopped = true;
 
         _enemyController.isDead = true;
     }

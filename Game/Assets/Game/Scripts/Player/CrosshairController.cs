@@ -9,15 +9,15 @@ public class CrosshairController : MonoBehaviour
     [SerializeField] private RectTransform up;
     [SerializeField] private RectTransform down;
     [SerializeField] private float smooth = 0.05f;
-    private PlayerMovementOld player;
+    private PlayerMovement player;
     private Gun gun;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (FindObjectOfType<PlayerMovementOld>())
+        if (FindObjectOfType<PlayerMovement>())
         {
-            player = FindObjectOfType<PlayerMovementOld>();
+            player = FindObjectOfType<PlayerMovement>();
         }
 
         if (FindObjectOfType<Gun>())

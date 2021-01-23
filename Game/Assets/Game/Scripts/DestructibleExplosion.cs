@@ -45,6 +45,8 @@ public class DestructibleExplosion : MonoBehaviour
         if (exploded)
             return;
 
+        GetComponent<BoxCollider>().enabled = false;
+
         if (!soundManager)
         {
             soundManager = FindObjectOfType<SoundManager>();

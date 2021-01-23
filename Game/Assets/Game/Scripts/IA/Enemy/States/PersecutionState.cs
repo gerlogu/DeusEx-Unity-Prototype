@@ -5,14 +5,15 @@ public class PersecutionState : State
 {
     #region Variables
     private readonly SoldierController _enemyController;
-    private float lostLocationTimer;
-    private Vector3 playerLocation;
+    private float _lostLocationTimer;
+    private Vector3 _playerLocation;
+    private float _timeToShoot;
     #endregion
 
     public PersecutionState(SoldierController enemyController, MyStateMachine stateMachine) : base(stateMachine)
     {
         _enemyController = enemyController;
-        lostLocationTimer = 5;
+        _lostLocationTimer = 5;
         _enemyController.mesh.material = _enemyController.persecutionMaterial;
 
         _enemyController.stateTextAnimator.SetBool("Alert", false);
@@ -23,7 +24,8 @@ public class PersecutionState : State
         _enemyController.Agent.speed = _enemyController.persecutionSpeed;
         _enemyController.Agent.stoppingDistance = 10f;
         _enemyController.Agent.SetDestination(_enemyController.Player.position);
-        playerLocation = _enemyController.Player.position;
+        _playerLocation = _enemyController.Player.position;
+        _timeToShoot = 1;
     }
 
     public override void Update(float deltaTime)
@@ -35,20 +37,35 @@ public class PersecutionState : State
             if(_enemyController.CheckPlayerVision(_enemyController.player.transform.position, 10))
             {
                 _enemyController.Agent.SetDestination(_enemyController.player.position);
-                lostLocationTimer = Random.Range(2.5f,4.5f);
-                playerLocation = _enemyController.player.transform.position;
+                _lostLocationTimer = Random.Range(2.5f,4.5f);
+                _playerLocation = _enemyController.player.transform.position;
+                
                 Quaternion currentRot = Quaternion.LookRotation(_enemyController.player.position - _enemyController.transform.position);
                 _enemyController.transform.rotation = Quaternion.Lerp(_enemyController.transform.rotation, currentRot, 8 * Time.deltaTime);
+
+                
+            }
+
+            if (_timeToShoot <= 0)
+            {
+                GameObject shot = GameObject.Instantiate(_enemyController.shotPrefab, _enemyController.weapon.position, _enemyController.weapon.rotation);
+                shot.transform.LookAt(_enemyController.player);
+                _timeToShoot = Random.Range(1, 3);
+                Debug.Log("Shoot");
+            }
+            else
+            {
+                _timeToShoot -= Time.deltaTime;
             }
         }
 
-        if (lostLocationTimer <= 0)
+        if (_lostLocationTimer <= 0)
         {
             stateMachine.SetState(new PatrollingState(_enemyController, stateMachine, _enemyController.currentPatrollingIndex));
         }
-        else if(Vector3.Distance(_enemyController.transform.position, playerLocation) <= _enemyController.Agent.stoppingDistance || (_enemyController.Agent.pathStatus == NavMeshPathStatus.PathInvalid || _enemyController.Agent.pathStatus == NavMeshPathStatus.PathPartial))
+        else if(Vector3.Distance(_enemyController.transform.position, _playerLocation) <= _enemyController.Agent.stoppingDistance || (_enemyController.Agent.pathStatus == NavMeshPathStatus.PathInvalid || _enemyController.Agent.pathStatus == NavMeshPathStatus.PathPartial))
         {
-            lostLocationTimer -= Time.deltaTime;
+            _lostLocationTimer -= Time.deltaTime;
         }
     }
 }
