@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
+﻿using UnityEngine;
 using UnityEngine.AI;
 using TMPro;
+
 public class SoldierController : EnemyController
 {
     #region Variables
@@ -18,45 +16,9 @@ public class SoldierController : EnemyController
     #region Properties
     public Transform Player { get; private set; }
     public NavMeshAgent Agent { get; private set; }
-    public Transform Transform => transform;
-    public float Velocity => velocity;
-    public float TimeDefenseless => timeDefenseless;
-    public Action<int> OnComboHitEnding { get; set; }
-
-    private float DistanceFromPlayer => Vector3.Distance(Transform.position,
-        Player.transform.position);
-
-    private Vector3 DirectionToPlayer =>
-        (Player.position - Transform.position).normalized;
-
-    public bool PlayerIsInRange => DistanceFromPlayer <= distanceToAttack;
-    // public bool CanAttack => (PlayerIsInRange && CanSeePlayer() && !IsThereAnObstacleInAttackRange());
 
     public Transform[] points;
     #endregion
-
-
-
-    //// public Transform player;
-    //private Transform playerCamera;
-
-    //public LayerMask whatIsGround, whatIsPlayer, whatIsVisualObstacle;
-
-    //private GameObject head;
-    //private GameObject rightArm;
-    //private GameObject spine;
-    //private float spineRotatingMargin = 20;
-    //private float currentRotation;
-
-    //// Patrolling
-    //public Vector3 walkPoint;
-    //public float walkPointRange;
-    //bool walkPointSet;
-
-    //// Attacking
-    //public float timeBetweenAttacks;
-    //bool alreadyAttacked;
-
 
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public bool ragdolls = true;
@@ -91,10 +53,7 @@ public class SoldierController : EnemyController
         base.Awake();
 
         Agent = GetComponent<NavMeshAgent>();
-        // Player = GameObject.FindGameObjectWithTag("Player").transform;
         Player = FindObjectOfType<PlayerMovementOld>().transform;
-        // _anim = GetComponent<Animator>();
-        // _propeller = new AgentPropeller(Agent);
         _collider = GetComponent<Collider>();
 
         rb = GetComponent<Rigidbody>();
@@ -114,25 +73,11 @@ public class SoldierController : EnemyController
         base.Start();
 
         stateMachine.SetInitialState(new PatrollingState(this, stateMachine, 1));
-        transform.forward = DirectionToPlayer;
-
-        
     }
 
     protected override void Update()
     {
         base.Update();
-
-        // print(Agent.isStopped);
-
-
-        
-
-        //if (Physics.CheckSphere(transform.position, 2.6f, 1<<25))
-        //{
-        //    
-        //}
-        // _propeller.Update(Time.deltaTime);
     }
 
     protected override void CheckPlayerDetected(Vector3 playerPos, LayerMask playerLayer)
@@ -148,8 +93,6 @@ public class SoldierController : EnemyController
 
     public override void DetectPlayer()
     {
-        // base.DetectPlayer();
-        // print("PlayerDetected: " + playerDetected);
         if(!playerDetected)
             stateMachine.SetState(new AskForHelpState(this, stateMachine));
     }
@@ -164,14 +107,6 @@ public class SoldierController : EnemyController
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        //Gizmos.DrawWireSphere(transform.position, distanceToAttack);
-
-        //Gizmos.color = Color.blue;
-        //var position = Transform.position;
-        //var forward = Transform.forward;
-        //Gizmos.DrawLine(position, position + Quaternion.Euler(0, detectAngle / 2, 0) * forward * distanceToAttack);
-        //Gizmos.DrawLine(position, position + Quaternion.Euler(0, -detectAngle / 2, 0) * forward * distanceToAttack);
-
         Gizmos.DrawWireSphere(transform.position, lookingForPlayerArea);
     }
 
@@ -188,34 +123,6 @@ public class SoldierController : EnemyController
         }
     }
 
-    private bool IsThereAnObstacleInAttackRange()
-    {
-
-        if (!Physics.Raycast(Transform.position, DirectionToPlayer, out var hitInfo,
-            distanceToAttack, LayerMask.GetMask("Ground", "Player")))
-        {
-            return false;
-        }
-        return !hitInfo.collider.CompareTag("Player");
-    }
-
-    //private bool CanSeePlayer()
-    //{
-    //    //Vector2 forward = new Vector2(transform.forward.x, Transform.forward.z);
-    //    //var playerPosition = Player.position;
-    //    //var selfPosition = Transform.position;
-
-    //    //Vector2 toPlayer = new Vector2(playerPosition.x - selfPosition.x,
-    //    //    playerPosition.z - selfPosition.z);
-
-    //    //return (Vector2.Angle(forward, toPlayer) < (detectAngle / 2));
-    //}
-
-    private void SetNextComboAnimationID(int hitIndex)
-    {
-        OnComboHitEnding?.Invoke(hitIndex);
-    }
-
     protected override void Die()
     {
         base.Die();
@@ -224,7 +131,6 @@ public class SoldierController : EnemyController
         _collider.enabled = false;
         Agent.enabled = false;
         _anim.enabled = false;
-        // weapon.Disable();
         enabled = false;
     }
 
@@ -232,12 +138,7 @@ public class SoldierController : EnemyController
     {
         base.TakeDamage(damage);
 
-        if (health > 0)
-        {
-            // stateMachine.SetState(new HurtState(this, stateMachine, _anim));
-            
-        }
-        else
+        if (health <= 0)
         {
             stateMachine.SetState(new DeathState(this, stateMachine));
         }
@@ -249,16 +150,6 @@ public class SoldierController : EnemyController
         lastHitStrength = hitStrength;
         lastHitBone = bone;
         TakeDamage(damage);
-    }
-
-    private void InitAttackInWeapon()
-    {
-        // weapon.InitAttack();
-    }
-
-    private void FinishAttackInWeapon()
-    {
-        // weapon.FinishAttack();
     }
     #endregion
 }

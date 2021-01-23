@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class DroneAskForHelpState : State
@@ -20,7 +19,6 @@ public class DroneAskForHelpState : State
         _enemyController.Agent.speed = 0;
         _enemyController.Agent.stoppingDistance = 10f;
 
-        //_allies = GameObject.FindObjectsOfType<EnemyController>();
         _allies = new List<EnemyController>();
         RaycastHit[] hits;
         hits = Physics.SphereCastAll(_enemyController.transform.position, 40, _enemyController.player.transform.up, 1 << 16);
@@ -32,9 +30,6 @@ public class DroneAskForHelpState : State
                 _allies.Add(hit.transform.GetComponent<EnemyController>());
             }
         }
-
-        // if (_enemyController.Agent.enabled)
-        // _enemyController.Agent.isStopped = true;
     }
 
     public override void Update(float deltaTime)
@@ -43,13 +38,11 @@ public class DroneAskForHelpState : State
 
         if (Physics.CheckSphere(_enemyController.transform.position, _enemyController.lookingForPlayerArea, 1 << 10))
         {
-            //  Debug.Log("Player in Area");
             if (_enemyController.CheckPlayerVision(_enemyController.player.transform.position, 10))
             {
                 Quaternion currentRot = Quaternion.LookRotation(_enemyController.player.position - _enemyController.transform.position);
                 _enemyController.transform.rotation = Quaternion.Lerp(_enemyController.transform.rotation, currentRot, 8 * Time.deltaTime);
             }
-
         }
 
         if (_askForHelpTime <= 0)
@@ -64,7 +57,6 @@ public class DroneAskForHelpState : State
         {
             _askForHelpTime -= Time.deltaTime;
         }
-
 
     }
 }

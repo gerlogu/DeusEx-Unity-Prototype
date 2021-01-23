@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DronePatrollingState : State
 {
@@ -18,7 +16,6 @@ public class DronePatrollingState : State
         _enemyController.Agent.speed = _enemyController.normalSpeed;
         _enemyController.playerDetected = false;
         _enemyController.Agent.stoppingDistance = 1f;
-        Debug.Log("Drone Patrolling State");
     }
 
     public override void Update(float deltaTime)

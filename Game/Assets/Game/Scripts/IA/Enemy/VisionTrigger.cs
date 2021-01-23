@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class VisionTrigger : MonoBehaviour
 {
@@ -16,7 +14,6 @@ public class VisionTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // print("Player");
             color = new Color(0.8f, 0, 0, 0.25f);
             OnPlayerDetected(other.transform.position, other.gameObject.layer);
         }

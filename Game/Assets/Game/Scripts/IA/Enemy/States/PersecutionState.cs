@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
+
 public class PersecutionState : State
 {
     #region Variables
@@ -25,8 +24,6 @@ public class PersecutionState : State
         _enemyController.Agent.stoppingDistance = 10f;
         _enemyController.Agent.SetDestination(_enemyController.Player.position);
         playerLocation = _enemyController.Player.position;
-        // if (_enemyController.Agent.enabled)
-        // _enemyController.Agent.isStopped = true;
     }
 
     public override void Update(float deltaTime)
@@ -35,7 +32,6 @@ public class PersecutionState : State
 
         if (Physics.CheckSphere(_enemyController.transform.position, _enemyController.lookingForPlayerArea, 1 << 10))
         {
-           //  Debug.Log("Player in Area");
             if(_enemyController.CheckPlayerVision(_enemyController.player.transform.position, 10))
             {
                 _enemyController.Agent.SetDestination(_enemyController.player.position);
@@ -43,9 +39,7 @@ public class PersecutionState : State
                 playerLocation = _enemyController.player.transform.position;
                 Quaternion currentRot = Quaternion.LookRotation(_enemyController.player.position - _enemyController.transform.position);
                 _enemyController.transform.rotation = Quaternion.Lerp(_enemyController.transform.rotation, currentRot, 8 * Time.deltaTime);
-                Debug.Log("Persecution");
             }
-            
         }
 
         if (lostLocationTimer <= 0)
@@ -55,9 +49,6 @@ public class PersecutionState : State
         else if(Vector3.Distance(_enemyController.transform.position, playerLocation) <= _enemyController.Agent.stoppingDistance || (_enemyController.Agent.pathStatus == NavMeshPathStatus.PathInvalid || _enemyController.Agent.pathStatus == NavMeshPathStatus.PathPartial))
         {
             lostLocationTimer -= Time.deltaTime;
-            Debug.Log(_enemyController.Agent.pathStatus);
         }
-
-       
     }
 }

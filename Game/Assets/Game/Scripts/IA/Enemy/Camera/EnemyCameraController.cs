@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyCameraController : EnemyController
 {
@@ -21,10 +19,8 @@ public class EnemyCameraController : EnemyController
 
     public override void DetectPlayer()
     {
-        // base.DetectPlayer();
         if (!playerDetected)
         {
-            // stateMachine.SetState(new CameraPersecutionState(this, stateMachine));
             playerDetected = true;
         }
             
@@ -34,7 +30,6 @@ public class EnemyCameraController : EnemyController
     {
         if (playerDetected)
         {
-            // stateMachine.SetState(new CameraPersecutionState(this, stateMachine));
             playerDetected = false;
         }
     }

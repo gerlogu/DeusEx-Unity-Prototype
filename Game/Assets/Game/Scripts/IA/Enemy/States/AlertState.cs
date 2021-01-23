@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AlertState : State
 {
@@ -28,8 +26,6 @@ public class AlertState : State
         _enemyController.stateTextAnimator.SetBool("Persecution", false);
         _enemyController.stateTextAnimator.SetBool("None", false);
         _enemyController.stateText.text = "?";
-        //if (_enemyController.Agent.enabled)
-        //    _enemyController.Agent.isStopped = true;
     }
 
     public override void Update(float deltaTime)

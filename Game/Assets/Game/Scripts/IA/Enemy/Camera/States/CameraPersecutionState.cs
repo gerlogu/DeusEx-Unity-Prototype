@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraPersecutionState : State
 {
@@ -13,14 +11,6 @@ public class CameraPersecutionState : State
     {
         _enemyController = enemyController;
         _enemyController.cameraPivot.localRotation = Quaternion.identity;
-        // _enemyController.mesh.material = _enemyController.patrollingMaterial;
-        // _enemyController.stateTextAnimator.SetBool("Alert", false);
-        // _enemyController.stateTextAnimator.SetBool("Persecution", false);
-        // _enemyController.stateTextAnimator.SetBool("None", true);
-        // _enemyController.Agent.speed = _enemyController.normalSpeed;
-        // _enemyController.playerDetected = false;
-        // _enemyController.Agent.stoppingDistance = 1f;
-        // Debug.Log("Patrolling State");
     }
 
     public override void Update(float deltaTime)

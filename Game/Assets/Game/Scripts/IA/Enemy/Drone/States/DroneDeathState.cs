@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DroneDeathState : State
 {
@@ -18,7 +16,6 @@ public class DroneDeathState : State
             _enemyController.GetComponent<EnemyAI_Human>().enabled = false;
         _enemyController.rb.constraints = RigidbodyConstraints.None;
 
-        //_enemyController.GetComponent<NavMeshAgent>().enabled = false;
         _enemyController.GetComponentInChildren<Animator>().enabled = false;
 
         _enemyController.isDead = true;
