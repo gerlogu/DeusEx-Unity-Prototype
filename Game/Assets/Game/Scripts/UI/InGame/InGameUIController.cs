@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using TMPro;
 public class InGameUIController : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject crosshair;
+    [SerializeField] private PlayerMovement player;
+    [SerializeField] private TextMeshProUGUI playerHealthText;
 
     public Menu menu = Menu.NONE;
 
@@ -27,20 +29,27 @@ public class InGameUIController : MonoBehaviour
     private void Update()
     {
         #region Start Menu
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (menu.Equals(Menu.START))
-            {
-                FindObjectOfType<PlayerMovement>().fov = FindObjectOfType<CameraFOVController>().fieldOfView;
-                menu = Menu.NONE;
-                
-            }
-            else if(menu.Equals(Menu.NONE))
-            {
-                menu = Menu.START;
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    if (menu.Equals(Menu.START))
+        //    {
+        //        FindObjectOfType<PlayerMovement>().fov = FindObjectOfType<CameraFOVController>().fieldOfView;
+        //        menu = Menu.NONE;
+
+        //    }
+        //    else if(menu.Equals(Menu.NONE))
+        //    {
+        //        menu = Menu.START;
+        //    }
+        //}
         #endregion
+
+        playerHealthText.text = "HP: " + player.playerHealth;
+
+        if(player.playerHealth <= 0)
+        {
+            SceneManager.LoadScene(1);
+        }
 
         switch (menu)
         {

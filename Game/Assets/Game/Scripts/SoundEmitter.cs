@@ -6,7 +6,7 @@ public static class SoundEmitter
 {
     public static bool SpawnSoundSphere(Vector3 position, float radius)
     {
-        Collider[] hitColliders = Physics.OverlapSphere(position, 9, 1<<16);
+        Collider[] hitColliders = Physics.OverlapSphere(position, radius, 1<<16);
 
         bool enemyDetected = false;
 

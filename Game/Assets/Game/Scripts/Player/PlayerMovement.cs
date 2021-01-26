@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int maxJumps = 2;
     [SerializeField] private int maxDashes = 2;
     [SerializeField] private float accelerationFactor;
-    [SerializeField] private int playerHealth = 100;
+    public int playerHealth = 100;
 
     private Inclination inclination;
     public enum Inclination
@@ -784,7 +784,7 @@ public class PlayerMovement : MonoBehaviour
         #region Horizontal Movement Final Calculation & Assignation
         if(move != Vector3.zero && IsGrounded())
         {
-            SoundEmitter.SpawnSoundSphere(transform.position, 10);
+            SoundEmitter.SpawnSoundSphere(transform.position, 4.5f); // Emisión de Sonido al caminar
         }
         controller.Move(move * speed * sprintVelocity * Time.deltaTime);
         #endregion

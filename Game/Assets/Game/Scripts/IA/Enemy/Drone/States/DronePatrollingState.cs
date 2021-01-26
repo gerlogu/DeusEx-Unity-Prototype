@@ -48,7 +48,6 @@ public class DronePatrollingState : State
                 {
                     if (_timeToRest <= 0)
                     {
-                        Debug.Log("Hiiii");
                         stateMachine.SetState(new DronePatrollingState(_enemyController, stateMachine, _enemyController.currentPatrollingIndex));
                     }
                     else

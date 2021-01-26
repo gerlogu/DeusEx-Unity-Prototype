@@ -266,8 +266,8 @@ public class Gun : MonoBehaviour
             }
             #endregion
 
-            SoundEmitter.SpawnSoundSphere(hit.point, 15, 3f);
-            SoundEmitter.SpawnSoundCapsule(_position.position, hit.point, 1f);
+            SoundEmitter.SpawnSoundSphere(hit.point, 9, 2.75f);
+            SoundEmitter.SpawnSoundCapsule(_position.position, hit.point, 0.5f);
         }
         else
         {
@@ -284,7 +284,7 @@ public class Gun : MonoBehaviour
             #endregion
         }
 
-        SoundEmitter.SpawnSoundSphere(transform.position, 14);
+        SoundEmitter.SpawnSoundSphere(transform.position, 9);
     }
     
     
