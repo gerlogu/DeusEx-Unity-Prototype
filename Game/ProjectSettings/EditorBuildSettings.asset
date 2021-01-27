@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/FirstLoadingScreen.unity
     guid: a196b32e6ed784e458e13eb08e8eebe6
   - enabled: 1
-    path: Assets/Scenes/TestLevel 3.unity
+    path: Assets/Scenes/Level.unity
     guid: e25f8429a4912ad4c9e5b4424f81ce4b
   m_configObjects: {}

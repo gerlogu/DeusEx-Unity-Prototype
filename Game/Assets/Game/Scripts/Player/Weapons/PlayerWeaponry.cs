@@ -62,18 +62,18 @@ public class PlayerWeaponry : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1) && weapons.Count >= 1 /*&& hasWeapon*/)
-        {
-            SelectWeapon(0);
-        }
-        else if(Input.GetKeyDown(KeyCode.Alpha2) && weapons.Count >= 2 /*&& hasWeapon*/)
-        {
-            SelectWeapon(1);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3) && weapons.Count >= 3/*&& hasWeapon*/)
-        {
-            SelectWeapon(2);
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha1) && weapons.Count >= 1 /*&& hasWeapon*/)
+        //{
+        //    SelectWeapon(0);
+        //}
+        //else if(Input.GetKeyDown(KeyCode.Alpha2) && weapons.Count >= 2 /*&& hasWeapon*/)
+        //{
+        //    SelectWeapon(1);
+        //}
+        //else if (Input.GetKeyDown(KeyCode.Alpha3) && weapons.Count >= 3/*&& hasWeapon*/)
+        //{
+        //    SelectWeapon(2);
+        //}
     }
 
     void SelectWeapon(int index)
